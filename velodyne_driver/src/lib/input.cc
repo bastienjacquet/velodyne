@@ -78,6 +78,9 @@ namespace velodyne_driver
     // connect to Velodyne UDP port
     ROS_INFO_STREAM("Opening UDP socket: port " << port);
     sockfd_ = socket(PF_INET, SOCK_DGRAM, 0);
+    int optval = 1;
+    setsockopt(sockfd_, SOL_SOCKET, SO_REUSEADDR,
+               (const void *)&optval , sizeof(int));
     if (sockfd_ == -1)
       {
         perror("socket");               // TODO: ROS_ERROR errno
